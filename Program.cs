@@ -58,10 +58,11 @@ namespace xor_encod
             if (args.Length != 2)
             {
                 Console.Clear();
-                Console.WriteLine("Syntax: xor_encod.exe 1,2,3 payload, length(cs)");
+                Console.WriteLine("Syntax: xor_encod.exe 1,2,3 payload");
                 Console.WriteLine("1: b64 : xor_encod.exe 1 b64.txt");
                 Console.WriteLine("2: raw : xor_encod.exe 3 met.bin");
-                Console.WriteLine("3: cs  : xor_encod.exe 3 met.cs\n");
+                Console.WriteLine("3: cs  NOT WORKING RIGHT NOW\n");
+                //Console.WriteLine("3: cs  : xor_encod.exe 3 met.cs\n");
                 Environment.Exit(0);
             }
             Console.Clear();
@@ -101,12 +102,21 @@ namespace xor_encod
 
                 string s = File.ReadAllText(Globals.curPath + "\\" + Convert.ToString(args[1]));
                 s = s.Replace("0x", "");
-                s = s.Substring(0, s.Length - 2);
                 s = s.Replace(" ", "");
+                s = s.Replace(",", "\\");
 
-                byte[] res =s.Split(",").Select((item) => Convert.ToByte(item, 16)).ToArray();
+                string res = s;
+                Console.WriteLine(res);
+
+                byte[] buf = Encoding.UTF8.GetBytes(res);
+                Console.WriteLine(buf.Length);
+
+
+                Environment.Exit(0);
+
+
                 Console.WriteLine(Convert.ToString(res.Length));
-                Globals.bpayload = res;
+                //Globals.bpayload = res;
 
                 string clearp = ClearPayload(Globals.bpayload);
                 string encp = EncryptedPayload(Globals.bpayload);
